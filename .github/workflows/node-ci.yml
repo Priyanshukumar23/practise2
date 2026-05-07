@@ -1,11 +1,16 @@
-
-name: Basic Node.js CI
+name: Docker Build CI
 
 on:
   push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  test:
+  docker-build:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,3 +27,12 @@ jobs:
 
       - name: Run test cases
         run: npm test
+
+      - name: Display Docker version
+        run: docker --version
+
+      - name: Build Docker image
+        run: docker build -t my-node-app:ci .
+
+      - name: Show Docker images
+        run: docker images
